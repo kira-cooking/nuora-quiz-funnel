@@ -3,35 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Microbiome Health Assessment | Nuora</title>
+    <title>Vaginal Health Assessment | Nuora</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Serif+Display&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* Colors */
-            --color-primary: #8B6B61;
-            --color-primary-dark: #6B4F47;
-            --color-primary-light: #D4C4BE;
-            --color-accent: #C9A799;
-            --color-background: #FDFBFA;
+            --color-primary: #2D5A45;
+            --color-primary-dark: #234A38;
+            --color-primary-light: #E8F0EC;
+            --color-accent: #3D7A5A;
+            --color-background: #FAFAFA;
             --color-surface: #FFFFFF;
-            --color-text: #2D2926;
-            --color-text-secondary: #6B6560;
-            --color-text-muted: #9B958F;
-            --color-border: #E8E4E1;
-            --color-success: #7A9B76;
+            --color-text: #1a1a1a;
+            --color-text-secondary: #6b6b6b;
+            --color-text-muted: #9a9a9a;
+            --color-border: #E8E8E8;
+            --color-success: #2D5A45;
             --color-warning: #D4A574;
             --color-error: #C47070;
             --color-score-low: #C47070;
             --color-score-medium: #D4A574;
-            --color-score-high: #7A9B76;
+            --color-score-high: #2D5A45;
 
-            /* Typography */
-            --font-serif: 'Cormorant Garamond', Georgia, serif;
-            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-sans: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-serif: 'DM Serif Display', Georgia, serif;
 
-            /* Spacing */
             --space-xs: 0.25rem;
             --space-sm: 0.5rem;
             --space-md: 1rem;
@@ -40,21 +37,14 @@
             --space-2xl: 3rem;
             --space-3xl: 4rem;
 
-            /* Border radius */
-            --radius-sm: 4px;
-            --radius-md: 8px;
-            --radius-lg: 12px;
-            --radius-xl: 20px;
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 24px;
 
-            /* Shadows */
-            --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
-            --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
-            --shadow-lg: 0 8px 24px rgba(0,0,0,0.12);
-
-            /* Transitions */
-            --transition-fast: 150ms ease;
-            --transition-base: 250ms ease;
-            --transition-slow: 400ms ease;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.1);
+            --shadow-lg: 0 8px 30px rgba(0,0,0,0.12);
         }
 
         * {
@@ -77,93 +67,125 @@
             min-height: 100vh;
         }
 
-        /* Logo */
-        .logo {
-            font-family: var(--font-serif);
-            font-size: 1.75rem;
-            font-weight: 400;
-            letter-spacing: 0.15em;
-            color: var(--color-text);
-            text-decoration: none;
-        }
-
         /* Header */
         .header {
-            position: fixed;
+            position: sticky;
             top: 0;
-            left: 0;
-            right: 0;
             background: var(--color-surface);
             border-bottom: 1px solid var(--color-border);
             padding: var(--space-md) var(--space-lg);
             z-index: 100;
+        }
+
+        .header-content {
+            max-width: 480px;
+            margin: 0 auto;
             display: flex;
-            justify-content: center;
             align-items: center;
+            justify-content: space-between;
+        }
+
+        .back-btn {
+            width: 40px;
+            height: 40px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background 0.2s;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .back-btn.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .back-btn:hover {
+            background: var(--color-background);
+        }
+
+        .back-btn svg {
+            width: 20px;
+            height: 20px;
+            stroke: var(--color-text);
+        }
+
+        .logo {
+            font-family: var(--font-serif);
+            font-size: 1.5rem;
+            color: var(--color-text);
+            text-decoration: none;
+            letter-spacing: 0.02em;
+        }
+
+        .progress-info {
+            font-size: 0.875rem;
+            color: var(--color-text-secondary);
+            min-width: 50px;
+            text-align: right;
+        }
+
+        .progress-bar {
+            max-width: 480px;
+            margin: 0 auto;
+            height: 4px;
+            background: var(--color-border);
+            margin-top: var(--space-sm);
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--color-primary);
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            width: 0%;
         }
 
         /* Main container */
         .container {
-            max-width: 640px;
+            max-width: 480px;
             margin: 0 auto;
-            padding: calc(70px + var(--space-xl)) var(--space-lg) var(--space-2xl);
+            padding: var(--space-xl) var(--space-lg) var(--space-3xl);
         }
 
         .container--wide {
-            max-width: 800px;
+            max-width: 680px;
         }
 
-        /* Sections - only one visible at a time */
+        /* Sections */
         .section {
             display: none;
-            animation: fadeIn var(--transition-base);
+            animation: fadeSlideIn 0.4s ease;
         }
 
         .section.active {
             display: block;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        @keyframes fadeSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(16px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
-        /* Progress bar */
-        .progress-container {
-            margin-bottom: var(--space-2xl);
-        }
-
-        .progress-text {
-            font-size: 0.875rem;
-            color: var(--color-text-secondary);
-            margin-bottom: var(--space-sm);
-            text-align: center;
-        }
-
-        .progress-bar {
-            height: 4px;
-            background: var(--color-border);
-            border-radius: 2px;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: var(--color-primary);
-            border-radius: 2px;
-            transition: width var(--transition-base);
-            width: 0%;
-        }
-
-        /* Quiz questions */
+        /* Question card */
         .question-card {
             background: var(--color-surface);
+            border: 1px solid var(--color-border);
             border-radius: var(--radius-lg);
             padding: var(--space-xl);
-            box-shadow: var(--shadow-md);
         }
 
-        .question-number {
+        .question-label {
             font-size: 0.75rem;
             text-transform: uppercase;
             letter-spacing: 0.1em;
@@ -174,7 +196,7 @@
         .question-text {
             font-family: var(--font-serif);
             font-size: 1.5rem;
-            line-height: 1.4;
+            line-height: 1.35;
             color: var(--color-text);
             margin-bottom: var(--space-xl);
         }
@@ -189,44 +211,63 @@
             display: flex;
             align-items: center;
             padding: var(--space-md) var(--space-lg);
-            background: var(--color-background);
+            background: var(--color-surface);
             border: 2px solid var(--color-border);
             border-radius: var(--radius-md);
             cursor: pointer;
-            transition: all var(--transition-fast);
+            transition: all 0.15s ease;
             font-size: 1rem;
             text-align: left;
+            font-family: var(--font-sans);
+            color: var(--color-text);
         }
 
         .option:hover {
-            border-color: var(--color-primary-light);
-            background: var(--color-surface);
+            border-color: var(--color-primary);
+            background: var(--color-primary-light);
         }
 
         .option.selected {
             border-color: var(--color-primary);
-            background: rgba(139, 107, 97, 0.05);
+            background: var(--color-primary-light);
         }
 
-        .option-indicator {
-            width: 20px;
-            height: 20px;
+        .option-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--color-background);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: var(--space-md);
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .option.selected .option-icon {
+            background: var(--color-primary);
+        }
+
+        .option-check {
+            width: 24px;
+            height: 24px;
             border: 2px solid var(--color-border);
             border-radius: 50%;
-            margin-right: var(--space-md);
+            margin-left: auto;
             flex-shrink: 0;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all var(--transition-fast);
+            transition: all 0.15s;
         }
 
-        .option.selected .option-indicator {
-            border-color: var(--color-primary);
+        .option.selected .option-check {
             background: var(--color-primary);
+            border-color: var(--color-primary);
         }
 
-        .option.selected .option-indicator::after {
+        .option.selected .option-check::after {
             content: '';
             width: 8px;
             height: 8px;
@@ -238,53 +279,48 @@
             flex: 1;
         }
 
-        /* Buttons */
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
+        /* Continue button */
+        .continue-btn {
+            width: 100%;
             padding: var(--space-md) var(--space-xl);
+            background: var(--color-primary);
+            color: white;
+            border: none;
+            border-radius: var(--radius-md);
             font-family: var(--font-sans);
             font-size: 1rem;
             font-weight: 500;
-            border-radius: var(--radius-md);
-            border: none;
             cursor: pointer;
-            transition: all var(--transition-fast);
-            text-decoration: none;
+            transition: all 0.2s;
+            margin-top: var(--space-xl);
         }
 
-        .btn--primary {
-            background: var(--color-primary);
-            color: white;
-        }
-
-        .btn--primary:hover {
+        .continue-btn:hover {
             background: var(--color-primary-dark);
+            transform: translateY(-1px);
         }
 
-        .btn--primary:disabled {
-            background: var(--color-primary-light);
+        .continue-btn:disabled {
+            background: var(--color-border);
+            color: var(--color-text-muted);
             cursor: not-allowed;
+            transform: none;
         }
 
-        .btn--secondary {
-            background: transparent;
-            color: var(--color-primary);
-            border: 2px solid var(--color-primary);
+        /* Privacy note */
+        .privacy-note {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-sm);
+            margin-top: var(--space-lg);
+            font-size: 0.8125rem;
+            color: var(--color-text-muted);
         }
 
-        .btn--secondary:hover {
-            background: rgba(139, 107, 97, 0.05);
-        }
-
-        .btn--large {
-            padding: var(--space-lg) var(--space-2xl);
-            font-size: 1.125rem;
-        }
-
-        .btn--full {
-            width: 100%;
+        .privacy-note svg {
+            width: 14px;
+            height: 14px;
         }
 
         /* Loading screen */
@@ -296,17 +332,52 @@
         .loading-title {
             font-family: var(--font-serif);
             font-size: 1.75rem;
-            margin-bottom: var(--space-lg);
+            margin-bottom: var(--space-md);
+            color: var(--color-text);
         }
 
-        .loading-spinner {
-            width: 60px;
-            height: 60px;
-            border: 3px solid var(--color-border);
+        .loading-subtitle {
+            color: var(--color-text-secondary);
+            margin-bottom: var(--space-2xl);
+        }
+
+        .loading-circle {
+            width: 160px;
+            height: 160px;
+            margin: 0 auto var(--space-2xl);
+            position: relative;
+        }
+
+        .loading-circle-bg {
+            width: 100%;
+            height: 100%;
+            border: 4px solid var(--color-border);
+            border-radius: 50%;
+            position: absolute;
+        }
+
+        .loading-circle-progress {
+            width: 100%;
+            height: 100%;
+            border: 4px solid transparent;
             border-top-color: var(--color-primary);
             border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: var(--space-xl) auto;
+            position: absolute;
+            animation: spin 1.2s linear infinite;
+        }
+
+        .loading-circle-inner {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+
+        .loading-percent {
+            font-family: var(--font-serif);
+            font-size: 2.5rem;
+            color: var(--color-primary);
         }
 
         @keyframes spin {
@@ -317,7 +388,7 @@
             list-style: none;
             text-align: left;
             max-width: 280px;
-            margin: var(--space-xl) auto 0;
+            margin: 0 auto;
         }
 
         .loading-step {
@@ -325,7 +396,14 @@
             align-items: center;
             padding: var(--space-sm) 0;
             color: var(--color-text-muted);
-            transition: color var(--transition-base);
+            transition: all 0.3s;
+            opacity: 0;
+            transform: translateX(-10px);
+        }
+
+        .loading-step.visible {
+            opacity: 1;
+            transform: translateX(0);
         }
 
         .loading-step.active {
@@ -337,8 +415,8 @@
         }
 
         .loading-step-icon {
-            width: 20px;
-            height: 20px;
+            width: 24px;
+            height: 24px;
             margin-right: var(--space-md);
             display: flex;
             align-items: center;
@@ -347,12 +425,13 @@
 
         .loading-step.complete .loading-step-icon::after {
             content: '\2713';
+            font-weight: bold;
         }
 
         .loading-step.active .loading-step-icon::after {
             content: '';
-            width: 12px;
-            height: 12px;
+            width: 14px;
+            height: 14px;
             border: 2px solid currentColor;
             border-top-color: transparent;
             border-radius: 50%;
@@ -360,11 +439,7 @@
         }
 
         /* Results page */
-        .results-card {
-            background: var(--color-surface);
-            border-radius: var(--radius-lg);
-            padding: var(--space-xl);
-            box-shadow: var(--shadow-md);
+        .results-header {
             text-align: center;
             margin-bottom: var(--space-xl);
         }
@@ -374,17 +449,64 @@
             text-transform: uppercase;
             letter-spacing: 0.1em;
             color: var(--color-text-muted);
-            margin-bottom: var(--space-md);
+            margin-bottom: var(--space-sm);
         }
 
-        .score-display {
-            margin: var(--space-lg) 0;
+        .results-title {
+            font-family: var(--font-serif);
+            font-size: 1.75rem;
+        }
+
+        .score-card {
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            padding: var(--space-2xl);
+            text-align: center;
+            margin-bottom: var(--space-xl);
+        }
+
+        .score-circle {
+            width: 180px;
+            height: 180px;
+            margin: 0 auto var(--space-lg);
+            position: relative;
+        }
+
+        .score-circle svg {
+            width: 100%;
+            height: 100%;
+            transform: rotate(-90deg);
+        }
+
+        .score-circle-bg {
+            fill: none;
+            stroke: var(--color-border);
+            stroke-width: 8;
+        }
+
+        .score-circle-progress {
+            fill: none;
+            stroke-width: 8;
+            stroke-linecap: round;
+            transition: stroke-dashoffset 1.5s ease-out;
+        }
+
+        .score-circle-progress.score-low { stroke: var(--color-score-low); }
+        .score-circle-progress.score-medium { stroke: var(--color-score-medium); }
+        .score-circle-progress.score-high { stroke: var(--color-score-high); }
+
+        .score-value {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
         }
 
         .score-number {
             font-family: var(--font-serif);
-            font-size: 4rem;
-            font-weight: 600;
+            font-size: 3.5rem;
             line-height: 1;
         }
 
@@ -392,61 +514,47 @@
         .score-number.score-medium { color: var(--color-score-medium); }
         .score-number.score-high { color: var(--color-score-high); }
 
-        .score-total {
-            font-size: 1.5rem;
+        .score-max {
+            font-size: 1rem;
             color: var(--color-text-muted);
         }
 
-        .score-label {
+        .score-status {
             font-family: var(--font-serif);
             font-size: 1.25rem;
-            color: var(--color-text-secondary);
-            margin-top: var(--space-md);
+            margin-bottom: var(--space-md);
         }
 
-        .score-bar {
-            height: 8px;
-            background: var(--color-border);
-            border-radius: 4px;
-            margin: var(--space-xl) 0;
-            overflow: hidden;
-        }
-
-        .score-bar-fill {
-            height: 100%;
-            border-radius: 4px;
-            transition: width 1s ease-out;
-        }
-
-        .score-bar-fill.score-low { background: var(--color-score-low); }
-        .score-bar-fill.score-medium { background: var(--color-score-medium); }
-        .score-bar-fill.score-high { background: var(--color-score-high); }
-
-        .results-message {
-            font-size: 1rem;
+        .score-message {
             color: var(--color-text-secondary);
             line-height: 1.7;
+            max-width: 360px;
+            margin: 0 auto;
         }
 
-        /* Answer summary */
+        /* Summary card */
         .summary-card {
             background: var(--color-surface);
+            border: 1px solid var(--color-border);
             border-radius: var(--radius-lg);
-            padding: var(--space-xl);
-            box-shadow: var(--shadow-md);
+            overflow: hidden;
             margin-bottom: var(--space-xl);
         }
 
-        .summary-title {
-            font-family: var(--font-serif);
-            font-size: 1.25rem;
-            margin-bottom: var(--space-lg);
-            padding-bottom: var(--space-md);
+        .summary-header {
+            padding: var(--space-lg);
             border-bottom: 1px solid var(--color-border);
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+        }
+
+        .summary-title {
+            font-weight: 600;
         }
 
         .summary-item {
-            padding: var(--space-md) 0;
+            padding: var(--space-md) var(--space-lg);
             border-bottom: 1px solid var(--color-border);
         }
 
@@ -455,38 +563,52 @@
         }
 
         .summary-question {
-            font-size: 0.875rem;
+            font-size: 0.8125rem;
             color: var(--color-text-muted);
             margin-bottom: var(--space-xs);
         }
 
         .summary-answer {
-            font-size: 1rem;
-            color: var(--color-text);
+            font-weight: 500;
         }
 
-        /* Email capture */
-        .email-section {
+        /* Social proof bar */
+        .social-proof {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-sm);
+            padding: var(--space-md);
+            background: var(--color-primary-light);
+            border-radius: var(--radius-md);
+            margin-bottom: var(--space-xl);
+            font-size: 0.875rem;
+            color: var(--color-primary);
+        }
+
+        .social-proof strong {
+            font-weight: 600;
+        }
+
+        /* Email section */
+        .email-card {
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            padding: var(--space-2xl);
             text-align: center;
         }
 
-        .email-card {
-            background: var(--color-surface);
-            border-radius: var(--radius-lg);
-            padding: var(--space-2xl);
-            box-shadow: var(--shadow-md);
-        }
-
         .email-icon {
-            width: 64px;
-            height: 64px;
-            background: linear-gradient(135deg, var(--color-primary-light), var(--color-accent));
+            width: 72px;
+            height: 72px;
+            background: linear-gradient(135deg, var(--color-primary-light), #d4e8dc);
             border-radius: 50%;
             margin: 0 auto var(--space-lg);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.75rem;
+            font-size: 2rem;
         }
 
         .email-title {
@@ -515,7 +637,7 @@
             border: 2px solid var(--color-border);
             border-radius: var(--radius-md);
             background: var(--color-background);
-            transition: border-color var(--transition-fast);
+            transition: border-color 0.2s;
         }
 
         .input:focus {
@@ -547,11 +669,9 @@
             flex-shrink: 0;
         }
 
-        .email-skip {
-            margin-top: var(--space-lg);
-        }
-
         .skip-link {
+            display: inline-block;
+            margin-top: var(--space-lg);
             font-size: 0.875rem;
             color: var(--color-text-muted);
             text-decoration: underline;
@@ -565,7 +685,7 @@
             color: var(--color-text-secondary);
         }
 
-        /* Advertorial */
+        /* Advertorial styles */
         .advertorial {
             padding-top: var(--space-xl);
         }
@@ -586,7 +706,7 @@
         .advertorial-headline {
             font-family: var(--font-serif);
             font-size: 2rem;
-            line-height: 1.3;
+            line-height: 1.25;
             margin-bottom: var(--space-lg);
         }
 
@@ -637,76 +757,33 @@
             margin-bottom: 0;
         }
 
-        /* Expert/Doctor card */
-        .expert-card {
-            background: var(--color-surface);
-            border-radius: var(--radius-lg);
-            padding: var(--space-xl);
-            box-shadow: var(--shadow-md);
-            display: flex;
-            flex-direction: column;
-            gap: var(--space-lg);
-            margin: var(--space-xl) 0;
-        }
-
-        @media (min-width: 480px) {
-            .expert-card {
-                flex-direction: row;
-                align-items: flex-start;
-            }
-        }
-
-        .expert-image {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
+        .highlight-box {
             background: var(--color-primary-light);
-            flex-shrink: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2.5rem;
-            color: var(--color-primary);
+            border-left: 4px solid var(--color-primary);
+            padding: var(--space-lg);
+            margin: var(--space-lg) 0;
+            border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
         }
 
-        .expert-info h4 {
-            font-family: var(--font-serif);
-            font-size: 1.25rem;
-            margin-bottom: var(--space-xs);
+        .highlight-box p {
+            margin: 0;
+            color: var(--color-text);
         }
 
-        .expert-credentials {
-            font-size: 0.875rem;
-            color: var(--color-text-muted);
-            margin-bottom: var(--space-md);
-        }
-
-        .expert-quote {
-            font-style: italic;
-            color: var(--color-text-secondary);
-            line-height: 1.7;
-        }
-
-        /* Clinical data */
+        /* Stats grid */
         .stat-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(3, 1fr);
             gap: var(--space-md);
             margin: var(--space-xl) 0;
         }
 
-        @media (min-width: 480px) {
-            .stat-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-        }
-
         .stat-card {
             background: var(--color-surface);
+            border: 1px solid var(--color-border);
             border-radius: var(--radius-md);
             padding: var(--space-lg);
             text-align: center;
-            box-shadow: var(--shadow-sm);
         }
 
         .stat-number {
@@ -717,21 +794,22 @@
         }
 
         .stat-label {
-            font-size: 0.8125rem;
+            font-size: 0.75rem;
             color: var(--color-text-muted);
+            line-height: 1.4;
         }
 
         /* Testimonials */
         .testimonial {
             background: var(--color-surface);
+            border: 1px solid var(--color-border);
             border-radius: var(--radius-lg);
             padding: var(--space-xl);
-            box-shadow: var(--shadow-sm);
             margin-bottom: var(--space-lg);
         }
 
         .testimonial-stars {
-            color: var(--color-warning);
+            color: #F59E0B;
             font-size: 1rem;
             margin-bottom: var(--space-md);
             letter-spacing: 2px;
@@ -742,6 +820,7 @@
             line-height: 1.7;
             color: var(--color-text);
             margin-bottom: var(--space-lg);
+            font-style: italic;
         }
 
         .testimonial-author {
@@ -754,16 +833,17 @@
             width: 48px;
             height: 48px;
             border-radius: 50%;
-            background: var(--color-primary-light);
+            background: linear-gradient(135deg, var(--color-primary-light), #d4e8dc);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 500;
+            font-weight: 600;
             color: var(--color-primary);
+            font-size: 1rem;
         }
 
         .testimonial-name {
-            font-weight: 500;
+            font-weight: 600;
         }
 
         .testimonial-detail {
@@ -780,21 +860,7 @@
             margin-top: var(--space-xs);
         }
 
-        /* Before/After */
-        .before-after {
-            background: var(--color-surface);
-            border-radius: var(--radius-lg);
-            padding: var(--space-xl);
-            margin: var(--space-xl) 0;
-        }
-
-        .before-after-title {
-            font-family: var(--font-serif);
-            font-size: 1.25rem;
-            text-align: center;
-            margin-bottom: var(--space-lg);
-        }
-
+        /* Timeline */
         .timeline {
             position: relative;
             padding-left: var(--space-xl);
@@ -804,15 +870,15 @@
             content: '';
             position: absolute;
             left: 6px;
-            top: 0;
-            bottom: 0;
+            top: 8px;
+            bottom: 8px;
             width: 2px;
             background: var(--color-border);
         }
 
         .timeline-item {
             position: relative;
-            padding-bottom: var(--space-lg);
+            padding-bottom: var(--space-xl);
         }
 
         .timeline-item:last-child {
@@ -827,6 +893,7 @@
             border-radius: 50%;
             background: var(--color-primary);
             border: 2px solid var(--color-surface);
+            top: 4px;
         }
 
         .timeline-week {
@@ -835,6 +902,7 @@
             letter-spacing: 0.1em;
             color: var(--color-primary);
             margin-bottom: var(--space-xs);
+            font-weight: 600;
         }
 
         .timeline-text {
@@ -843,91 +911,156 @@
             line-height: 1.6;
         }
 
-        /* Product card */
-        .product-card {
+        /* Product offer card */
+        .offer-card {
             background: var(--color-surface);
+            border: 2px solid var(--color-primary);
             border-radius: var(--radius-lg);
             overflow: hidden;
-            box-shadow: var(--shadow-lg);
             margin: var(--space-2xl) 0;
         }
 
-        .product-image {
-            width: 100%;
-            height: 280px;
-            background: linear-gradient(135deg, var(--color-primary-light), var(--color-accent));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 4rem;
+        .offer-badge {
+            background: var(--color-primary);
+            color: white;
+            text-align: center;
+            padding: var(--space-sm) var(--space-md);
+            font-size: 0.875rem;
+            font-weight: 600;
         }
 
-        .product-details {
+        .offer-content {
             padding: var(--space-xl);
         }
 
-        .product-name {
+        .offer-title {
             font-family: var(--font-serif);
             font-size: 1.5rem;
             margin-bottom: var(--space-sm);
         }
 
-        .product-subtitle {
+        .offer-subtitle {
             color: var(--color-text-muted);
-            font-size: 0.9375rem;
             margin-bottom: var(--space-lg);
         }
 
-        .product-features {
-            list-style: none;
+        .offer-options {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-md);
             margin-bottom: var(--space-xl);
         }
 
-        .product-feature {
+        .offer-option {
+            border: 2px solid var(--color-border);
+            border-radius: var(--radius-md);
+            padding: var(--space-lg);
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .offer-option:hover {
+            border-color: var(--color-primary);
+        }
+
+        .offer-option.selected {
+            border-color: var(--color-primary);
+            background: var(--color-primary-light);
+        }
+
+        .offer-option.best-value {
+            border-color: var(--color-primary);
+        }
+
+        .offer-option.best-value::before {
+            content: 'BEST VALUE';
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--color-primary);
+            color: white;
+            font-size: 0.6875rem;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 20px;
+            letter-spacing: 0.05em;
+        }
+
+        .offer-option-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: var(--space-sm);
+        }
+
+        .offer-option-name {
+            font-weight: 600;
+        }
+
+        .offer-option-savings {
+            background: #FEF3C7;
+            color: #92400E;
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+
+        .offer-option-pricing {
+            display: flex;
+            align-items: baseline;
+            gap: var(--space-sm);
+        }
+
+        .offer-option-price {
+            font-family: var(--font-serif);
+            font-size: 1.5rem;
+            color: var(--color-text);
+        }
+
+        .offer-option-original {
+            font-size: 0.875rem;
+            color: var(--color-text-muted);
+            text-decoration: line-through;
+        }
+
+        .offer-option-perunit {
+            font-size: 0.8125rem;
+            color: var(--color-text-muted);
+        }
+
+        .offer-features {
+            list-style: none;
+            margin-bottom: var(--space-lg);
+        }
+
+        .offer-feature {
             display: flex;
             align-items: flex-start;
             padding: var(--space-sm) 0;
             font-size: 0.9375rem;
         }
 
-        .product-feature-icon {
+        .offer-feature-icon {
             color: var(--color-success);
             margin-right: var(--space-sm);
             flex-shrink: 0;
         }
 
-        .product-pricing {
-            display: flex;
-            align-items: baseline;
-            gap: var(--space-md);
-            margin-bottom: var(--space-lg);
-        }
-
-        .product-price {
-            font-family: var(--font-serif);
-            font-size: 2rem;
-            color: var(--color-text);
-        }
-
-        .product-price-note {
-            font-size: 0.875rem;
-            color: var(--color-text-muted);
-        }
-
-        /* Guarantee */
+        /* Guarantee box */
         .guarantee-box {
-            background: rgba(122, 155, 118, 0.1);
-            border: 1px solid rgba(122, 155, 118, 0.3);
+            background: var(--color-primary-light);
             border-radius: var(--radius-md);
             padding: var(--space-lg);
-            margin: var(--space-xl) 0;
             text-align: center;
+            margin-top: var(--space-lg);
         }
 
         .guarantee-title {
-            font-family: var(--font-serif);
-            font-size: 1.125rem;
-            color: var(--color-success);
+            font-weight: 600;
+            color: var(--color-primary);
             margin-bottom: var(--space-sm);
             display: flex;
             align-items: center;
@@ -936,7 +1069,7 @@
         }
 
         .guarantee-text {
-            font-size: 0.9375rem;
+            font-size: 0.875rem;
             color: var(--color-text-secondary);
             line-height: 1.6;
         }
@@ -945,7 +1078,7 @@
         .cta-section {
             text-align: center;
             padding: var(--space-2xl);
-            background: linear-gradient(180deg, var(--color-background) 0%, rgba(139, 107, 97, 0.05) 100%);
+            background: linear-gradient(180deg, var(--color-background) 0%, var(--color-primary-light) 100%);
             border-radius: var(--radius-lg);
             margin: var(--space-2xl) 0;
         }
@@ -962,40 +1095,38 @@
             line-height: 1.7;
         }
 
-        /* Sticky CTA */
-        .sticky-cta {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: var(--color-surface);
-            border-top: 1px solid var(--color-border);
-            padding: var(--space-md) var(--space-lg);
-            display: none;
-            z-index: 99;
-            box-shadow: 0 -4px 12px rgba(0,0,0,0.08);
-        }
-
-        .sticky-cta.visible {
-            display: block;
-        }
-
-        .sticky-cta-content {
-            max-width: 640px;
-            margin: 0 auto;
-            display: flex;
+        .btn {
+            display: inline-flex;
             align-items: center;
-            justify-content: space-between;
-            gap: var(--space-md);
+            justify-content: center;
+            padding: var(--space-md) var(--space-xl);
+            font-family: var(--font-sans);
+            font-size: 1rem;
+            font-weight: 500;
+            border-radius: var(--radius-md);
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
         }
 
-        .sticky-cta-text {
-            font-size: 0.875rem;
+        .btn--primary {
+            background: var(--color-primary);
+            color: white;
         }
 
-        .sticky-cta-price {
-            font-family: var(--font-serif);
-            font-size: 1.25rem;
+        .btn--primary:hover {
+            background: var(--color-primary-dark);
+            transform: translateY(-1px);
+        }
+
+        .btn--large {
+            padding: var(--space-lg) var(--space-2xl);
+            font-size: 1.125rem;
+        }
+
+        .btn--full {
+            width: 100%;
         }
 
         /* FAQ */
@@ -1020,9 +1151,10 @@
         }
 
         .faq-icon {
-            font-size: 1.25rem;
+            font-size: 1.5rem;
             color: var(--color-text-muted);
-            transition: transform var(--transition-fast);
+            transition: transform 0.2s;
+            font-weight: 300;
         }
 
         .faq-item.open .faq-icon {
@@ -1040,6 +1172,60 @@
             display: block;
         }
 
+        /* Sticky CTA */
+        .sticky-cta {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--color-surface);
+            border-top: 1px solid var(--color-border);
+            padding: var(--space-md) var(--space-lg);
+            display: none;
+            z-index: 99;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
+        }
+
+        .sticky-cta.visible {
+            display: block;
+        }
+
+        .sticky-cta-content {
+            max-width: 480px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: var(--space-md);
+        }
+
+        .sticky-cta-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sticky-cta-name {
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+
+        .sticky-cta-price {
+            display: flex;
+            align-items: baseline;
+            gap: var(--space-sm);
+        }
+
+        .sticky-cta-current {
+            font-family: var(--font-serif);
+            font-size: 1.25rem;
+        }
+
+        .sticky-cta-original {
+            font-size: 0.8125rem;
+            color: var(--color-text-muted);
+            text-decoration: line-through;
+        }
+
         /* Footer */
         .footer {
             text-align: center;
@@ -1051,7 +1237,6 @@
         .footer-logo {
             font-family: var(--font-serif);
             font-size: 1.5rem;
-            letter-spacing: 0.15em;
             margin-bottom: var(--space-md);
         }
 
@@ -1081,56 +1266,111 @@
             margin: 0 auto;
         }
 
-        /* Utility */
-        .text-center { text-align: center; }
-        .mt-sm { margin-top: var(--space-sm); }
-        .mt-md { margin-top: var(--space-md); }
-        .mt-lg { margin-top: var(--space-lg); }
-        .mt-xl { margin-top: var(--space-xl); }
-        .mb-sm { margin-bottom: var(--space-sm); }
-        .mb-md { margin-bottom: var(--space-md); }
-        .mb-lg { margin-bottom: var(--space-lg); }
-        .mb-xl { margin-bottom: var(--space-xl); }
+        /* Trust badges */
+        .trust-badges {
+            display: flex;
+            justify-content: center;
+            gap: var(--space-xl);
+            padding: var(--space-lg) 0;
+            flex-wrap: wrap;
+        }
+
+        .trust-badge {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--space-xs);
+            font-size: 0.75rem;
+            color: var(--color-text-muted);
+        }
+
+        .trust-badge-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--color-primary-light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .stat-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .sticky-cta-content {
+                flex-direction: column;
+                gap: var(--space-sm);
+            }
+
+            .sticky-cta .btn {
+                width: 100%;
+            }
+        }
     </style>
 </head>
 <body>
     <!-- Header -->
     <header class="header">
-        <a href="#" class="logo">nuora</a>
+        <div class="header-content">
+            <button class="back-btn" id="back-btn" onclick="goBack()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M19 12H5M12 19l-7-7 7-7"/>
+                </svg>
+            </button>
+            <a href="https://mynuora.com" class="logo">nuora</a>
+            <span class="progress-info" id="progress-info">1 of 12</span>
+        </div>
+        <div class="progress-bar">
+            <div class="progress-fill" id="progress-fill"></div>
+        </div>
     </header>
 
     <div class="container">
         <!-- Quiz Section -->
         <section id="quiz-section" class="section active">
-            <div class="progress-container">
-                <p class="progress-text">Question <span id="current-question">1</span> of <span id="total-questions">7</span></p>
-                <div class="progress-bar">
-                    <div class="progress-fill" id="progress-fill"></div>
-                </div>
-            </div>
-
             <div class="question-card" id="question-card">
                 <!-- Questions populated by JS -->
             </div>
+
+            <p class="privacy-note">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                    <path d="M7 11V7a5 5 0 0110 0v4"/>
+                </svg>
+                Your answers are private and secure
+            </p>
         </section>
 
         <!-- Loading Section -->
         <section id="loading-section" class="section">
             <div class="loading-screen">
-                <h2 class="loading-title">Creating your profile...</h2>
-                <div class="loading-spinner"></div>
+                <h2 class="loading-title">Analyzing your responses...</h2>
+                <p class="loading-subtitle">Creating your personalized assessment</p>
+
+                <div class="loading-circle">
+                    <div class="loading-circle-bg"></div>
+                    <div class="loading-circle-progress"></div>
+                    <div class="loading-circle-inner">
+                        <span class="loading-percent" id="loading-percent">0%</span>
+                    </div>
+                </div>
+
                 <ul class="loading-steps">
-                    <li class="loading-step" id="step-1">
+                    <li class="loading-step" id="load-step-1">
                         <span class="loading-step-icon"></span>
-                        Analyzing your responses
+                        Reviewing your symptom history
                     </li>
-                    <li class="loading-step" id="step-2">
+                    <li class="loading-step" id="load-step-2">
                         <span class="loading-step-icon"></span>
-                        Calculating microbiome score
+                        Identifying potential root causes
                     </li>
-                    <li class="loading-step" id="step-3">
+                    <li class="loading-step" id="load-step-3">
                         <span class="loading-step-icon"></span>
-                        Generating recommendations
+                        Building your personalized protocol
                     </li>
                 </ul>
             </div>
@@ -1138,42 +1378,57 @@
 
         <!-- Results Section -->
         <section id="results-section" class="section">
-            <div class="results-card">
-                <p class="results-label">Your Microbiome Health Score</p>
-                <div class="score-display">
-                    <span class="score-number" id="score-number">--</span>
-                    <span class="score-total">/100</span>
+            <div class="results-header">
+                <p class="results-label">Your Results</p>
+                <h1 class="results-title">Vaginal Health Assessment</h1>
+            </div>
+
+            <div class="score-card">
+                <div class="score-circle">
+                    <svg viewBox="0 0 120 120">
+                        <circle class="score-circle-bg" cx="60" cy="60" r="54"/>
+                        <circle class="score-circle-progress" id="score-circle" cx="60" cy="60" r="54"
+                            stroke-dasharray="339.292" stroke-dashoffset="339.292"/>
+                    </svg>
+                    <div class="score-value">
+                        <span class="score-number" id="score-number">--</span>
+                        <span class="score-max">/100</span>
+                    </div>
                 </div>
-                <div class="score-bar">
-                    <div class="score-bar-fill" id="score-bar-fill"></div>
-                </div>
-                <p class="score-label" id="score-label"></p>
-                <p class="results-message" id="results-message"></p>
+                <p class="score-status" id="score-status"></p>
+                <p class="score-message" id="score-message"></p>
+            </div>
+
+            <div class="social-proof">
+                <strong>47,832</strong> women have taken this assessment
             </div>
 
             <div class="summary-card">
-                <h3 class="summary-title">Your Answers</h3>
+                <div class="summary-header">
+                    <span>&#128203;</span>
+                    <span class="summary-title">Your Responses</span>
+                </div>
                 <div id="answer-summary">
                     <!-- Populated by JS -->
                 </div>
             </div>
 
-            <button class="btn btn--primary btn--large btn--full" onclick="showSection('email-section')">
-                Get Your Personalized Protocol
+            <button class="continue-btn" onclick="showSection('email-section')">
+                See What's Causing Your Symptoms
             </button>
         </section>
 
         <!-- Email Capture Section -->
-        <section id="email-section" class="section email-section">
+        <section id="email-section" class="section">
             <div class="email-card">
                 <div class="email-icon">&#9993;</div>
-                <h2 class="email-title">Get Your Personalized Protocol</h2>
-                <p class="email-subtitle">Enter your email to receive your customized microbiome restoration plan, plus an exclusive discount on your first order.</p>
+                <h2 class="email-title">Get Your Protocol</h2>
+                <p class="email-subtitle">Enter your email to receive your personalized vaginal health protocol, including the hidden mechanism most doctors overlook.</p>
 
                 <form class="email-form" id="email-form">
                     <input type="text" class="input" placeholder="First name" id="first-name" required>
                     <input type="email" class="input" placeholder="Email address" id="email" required>
-                    <button type="submit" class="btn btn--primary btn--large btn--full">
+                    <button type="submit" class="continue-btn">
                         Send My Protocol
                     </button>
                 </form>
@@ -1181,119 +1436,140 @@
                 <ul class="email-benefits">
                     <li class="email-benefit">
                         <span class="email-benefit-icon">&#10003;</span>
-                        Personalized protocol based on your quiz results
+                        Learn why antibiotics and probiotics keep failing
                     </li>
                     <li class="email-benefit">
                         <span class="email-benefit-icon">&#10003;</span>
-                        Exclusive 10% discount code
+                        Discover the root cause of recurring symptoms
                     </li>
                     <li class="email-benefit">
                         <span class="email-benefit-icon">&#10003;</span>
-                        Weekly tips from our wellness experts
+                        Get an exclusive discount on your first order
                     </li>
                 </ul>
 
-                <div class="email-skip">
-                    <button class="skip-link" onclick="showSection('advertorial-section')">
-                        Skip for now, show me the solution
-                    </button>
-                </div>
+                <button class="skip-link" onclick="showSection('advertorial-section')">
+                    Skip for now
+                </button>
             </div>
         </section>
     </div>
 
-    <!-- Advertorial Section (wider container) -->
+    <!-- Advertorial Section -->
     <section id="advertorial-section" class="section">
         <div class="container container--wide advertorial">
 
             <!-- Hero -->
             <div class="advertorial-hero">
-                <p class="advertorial-eyebrow">The Science of Vaginal Health</p>
-                <h1 class="advertorial-headline">Why Everything You've Tried for BV, Yeast, and Odor Has Failed (And What Finally Works)</h1>
-                <p class="advertorial-subhead">[COPY_HERE: Hook subhead - something about the hidden mechanism doctors don't talk about]</p>
+                <p class="advertorial-eyebrow">Finally Explained</p>
+                <h1 class="advertorial-headline">The Hidden Reason Your BV, Yeast, and Odor Keep Coming Back</h1>
+                <p class="advertorial-subhead">And why antibiotics, probiotics, and everything else you've tried only provides temporary relief</p>
             </div>
 
-            <!-- The Problem -->
+            <!-- Opening - Grant Absolution -->
+            <div class="advertorial-section">
+                <p class="section-label">The Truth</p>
+                <h2 class="section-title">It's Not Your Fault</h2>
+                <div class="section-content">
+                    <p>If you've been dealing with recurring vaginal issues, you've probably tried everything. Antibiotics that work for a few weeks, then symptoms return. Probiotics that promised the world but delivered nothing. Boric acid, apple cider vinegar, special washes... the list goes on.</p>
+
+                    <p>And every time something fails, you wonder if maybe it's just you. Maybe your body is broken. Maybe this is just your life now.</p>
+
+                    <p>Here's what nobody told you: <strong>the problem isn't you, and it's not the treatments.</strong> The problem is that every treatment you've tried was designed to fight the wrong battle.</p>
+                </div>
+            </div>
+
+            <!-- The Hidden Problem - Biofilm -->
             <div class="advertorial-section">
                 <p class="section-label">The Hidden Problem</p>
-                <h2 class="section-title">[COPY_HERE: Section title about biofilm]</h2>
+                <h2 class="section-title">Why Bacteria Keep Coming Back (Even After Treatment)</h2>
                 <div class="section-content">
-                    <p>[COPY_HERE: Opening - grant absolution, it's not your fault, explain why antibiotics and probiotics fail]</p>
-                    <p>[COPY_HERE: Explain biofilm mechanism - the protective shield bacteria create]</p>
-                    <p>[COPY_HERE: Why this creates the cycle of recurring infections - temporary relief then comes back]</p>
+                    <p>In 2019, researchers at Johns Hopkins made a discovery that changed everything we know about recurring vaginal infections.</p>
+
+                    <p>They found that harmful bacteria don't just float around waiting to be killed. Instead, they do something far more clever: <strong>they build a protective fortress called a biofilm.</strong></p>
+
+                    <div class="highlight-box">
+                        <p>A biofilm is a slimy shield that bacteria create to protect themselves. Think of it like a dome over a city. Antibiotics, probiotics, and your immune system can attack the dome all day long... but the bacteria inside stay safe.</p>
+                    </div>
+
+                    <p>This is why 58% of women who treat BV experience recurrence within 12 months. The antibiotics kill the bacteria they can reach. But the ones hiding inside the biofilm? They survive. And the moment conditions are right (your period, stress, intimacy), they repopulate.</p>
+
+                    <p>It's like mopping the floor while the faucet is still running. You're working hard, but you're fighting a losing battle.</p>
                 </div>
             </div>
 
-            <!-- Expert Section -->
+            <!-- Why Other Treatments Fail -->
             <div class="advertorial-section">
-                <p class="section-label">Expert Insight</p>
-                <h2 class="section-title">[COPY_HERE: What researchers discovered]</h2>
-
-                <div class="expert-card">
-                    <div class="expert-image">&#128105;&#8205;&#128300;</div>
-                    <div class="expert-info">
-                        <h4>[COPY_HERE: Expert name]</h4>
-                        <p class="expert-credentials">[COPY_HERE: Credentials - PhD, institution, etc.]</p>
-                        <p class="expert-quote">"[COPY_HERE: Quote about biofilm disruption being the key to lasting vaginal health]"</p>
-                    </div>
-                </div>
-
+                <p class="section-label">The Logical Cage</p>
+                <h2 class="section-title">Why Nothing You've Tried Has Worked Long-Term</h2>
                 <div class="section-content">
-                    <p>[COPY_HERE: Explain the research/mechanism - bromelain (pineapple enzyme) breaks down biofilm]</p>
-                    <p>[COPY_HERE: Once biofilm is disrupted, beneficial bacteria (SNZ-1969) can establish]</p>
+                    <p><strong>Antibiotics</strong> kill exposed bacteria but can't penetrate the biofilm. The bacteria inside survive and repopulate. Plus, antibiotics wipe out your good bacteria too, making future infections more likely.</p>
+
+                    <p><strong>Regular probiotics</strong> face two problems. First, most strains don't survive stomach acid, so they never reach where they're needed. Second, even if they survive, they can't colonize when biofilm is blocking the way. It's like trying to plant a garden on concrete.</p>
+
+                    <p><strong>Boric acid and washes</strong> only work on the surface. They might provide temporary relief, but they don't address the protected bacteria deep in the biofilm.</p>
+
+                    <p>None of these treatments fail because they're bad products. They fail because <strong>they weren't designed to address the biofilm problem.</strong></p>
                 </div>
             </div>
 
             <!-- Clinical Evidence -->
             <div class="advertorial-section">
-                <p class="section-label">Clinical Evidence</p>
-                <h2 class="section-title">[COPY_HERE: The results speak for themselves]</h2>
+                <p class="section-label">The Research</p>
+                <h2 class="section-title">What Actually Works</h2>
 
                 <div class="stat-grid">
                     <div class="stat-card">
-                        <div class="stat-number">[X]%</div>
-                        <div class="stat-label">[COPY_HERE: Stat label]</div>
+                        <div class="stat-number">58%</div>
+                        <div class="stat-label">of women experience BV recurrence within 12 months</div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-number">[X]x</div>
-                        <div class="stat-label">[COPY_HERE: Stat label]</div>
+                        <div class="stat-number">1000x</div>
+                        <div class="stat-label">more resistant: bacteria inside biofilm vs exposed</div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-number">[X]</div>
-                        <div class="stat-label">[COPY_HERE: Stat label]</div>
+                        <div class="stat-number">86.6%</div>
+                        <div class="stat-label">improvement rate with targeted probiotic approach</div>
                     </div>
                 </div>
 
                 <div class="section-content">
-                    <p>[COPY_HERE: Explain the clinical study/evidence supporting the mechanism]</p>
+                    <p>Recent clinical research has identified a two-step approach that actually addresses the root cause:</p>
+
+                    <p><strong>Step 1: Break down the biofilm.</strong> Certain natural enzymes, particularly bromelain from pineapple, have been shown to dissolve the protein matrix that holds biofilm together. Studies show up to 6.4x more effective biofilm disruption compared to control.</p>
+
+                    <p><strong>Step 2: Recolonize with the right bacteria.</strong> Once the biofilm is disrupted, specific probiotic strains (particularly spore-forming strains like SNZ-1969) can establish themselves and crowd out harmful bacteria. Unlike regular probiotics, spore-forming strains survive stomach acid and actually reach where they're needed.</p>
                 </div>
             </div>
 
-            <!-- The Solution - Product Introduction -->
+            <!-- The Solution -->
             <div class="advertorial-section">
                 <p class="section-label">The Solution</p>
-                <h2 class="section-title">[COPY_HERE: Introducing the two-phase approach - make product intro feel earned]</h2>
-
+                <h2 class="section-title">The Two-Phase Approach That Actually Works</h2>
                 <div class="section-content">
-                    <p>[COPY_HERE: Phase 1 - Biofilm disruption with bromelain]</p>
-                    <p>[COPY_HERE: Phase 2 - Restoration with SNZ-1969 probiotic]</p>
-                    <p>[COPY_HERE: Why this combination in a simple daily gummy is the breakthrough]</p>
+                    <p>Based on this research, we formulated a daily gummy that combines both phases into one simple routine:</p>
+
+                    <p><strong>Phase 1: Biofilm Disruption</strong> — Natural pineapple enzymes (bromelain) break down the protective shield that harmful bacteria hide behind. This exposes them to your immune system and makes the environment receptive to healthy bacteria.</p>
+
+                    <p><strong>Phase 2: Microbiome Restoration</strong> — The clinically-studied SNZ-1969 probiotic strain recolonizes your vaginal microbiome with beneficial bacteria. Because it's spore-forming, it actually survives digestion and reaches where it needs to go.</p>
+
+                    <p>The result? Instead of temporary relief followed by inevitable recurrence, you're addressing the actual root cause. The cycle finally breaks.</p>
                 </div>
             </div>
 
             <!-- Customer Stories -->
             <div class="advertorial-section">
-                <p class="section-label">Real Results</p>
-                <h2 class="section-title">Women Just Like You Are Finally Finding Relief</h2>
+                <p class="section-label">Real Stories</p>
+                <h2 class="section-title">Women Who Finally Found Relief</h2>
 
                 <div class="testimonial">
                     <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-                    <p class="testimonial-text">[COPY_HERE: Testimonial 1 - focus on the journey, what they tried before, how this was different]</p>
+                    <p class="testimonial-text">"I've dealt with recurring BV for way too long. I've tried every product on the market — pills, gels, wipes, you name it — and everything felt like a temporary band-aid fix that only worked for a minute. Within three weeks of taking these, my symptoms were gone. It's been 4 months and nothing has come back. I actually cried."</p>
                     <div class="testimonial-author">
-                        <div class="testimonial-avatar">[X]</div>
+                        <div class="testimonial-avatar">LN</div>
                         <div>
-                            <div class="testimonial-name">[Name]</div>
-                            <div class="testimonial-detail">[Age, Location]</div>
+                            <div class="testimonial-name">Lillian N.</div>
+                            <div class="testimonial-detail">Verified Buyer</div>
                             <div class="testimonial-verified">&#10003; Verified Purchase</div>
                         </div>
                     </div>
@@ -1301,12 +1577,12 @@
 
                 <div class="testimonial">
                     <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-                    <p class="testimonial-text">[COPY_HERE: Testimonial 2 - different angle/symptom focus]</p>
+                    <p class="testimonial-text">"Intimacy made me cringe bc what if they smelled what I smelled? Even after showering, I felt like I smelled bad. Not even a week into taking them I started smelling so fresh and clean. My husband even said I taste good now. I had given up on ever feeling normal down there again."</p>
                     <div class="testimonial-author">
-                        <div class="testimonial-avatar">[X]</div>
+                        <div class="testimonial-avatar">JW</div>
                         <div>
-                            <div class="testimonial-name">[Name]</div>
-                            <div class="testimonial-detail">[Age, Location]</div>
+                            <div class="testimonial-name">Jalissa W.</div>
+                            <div class="testimonial-detail">Verified Buyer</div>
                             <div class="testimonial-verified">&#10003; Verified Purchase</div>
                         </div>
                     </div>
@@ -1314,89 +1590,113 @@
 
                 <div class="testimonial">
                     <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-                    <p class="testimonial-text">[COPY_HERE: Testimonial 3 - focus on lifestyle impact, confidence restored]</p>
+                    <p class="testimonial-text">"I've made several appointments to doctor and she just keeps prescribing antibiotics and it's not going away. I was so frustrated. Tried these thinking yeah right, but what do I have to lose. By day 7 I noticed a difference. Now at week 6 I feel like a different person. Finally something that actually works."</p>
                     <div class="testimonial-author">
-                        <div class="testimonial-avatar">[X]</div>
+                        <div class="testimonial-avatar">NC</div>
                         <div>
-                            <div class="testimonial-name">[Name]</div>
-                            <div class="testimonial-detail">[Age, Location]</div>
+                            <div class="testimonial-name">Nicole C.</div>
+                            <div class="testimonial-detail">Verified Buyer</div>
                             <div class="testimonial-verified">&#10003; Verified Purchase</div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- What to Expect Timeline -->
+            <!-- Timeline -->
             <div class="advertorial-section">
-                <p class="section-label">Your Journey</p>
-                <h2 class="section-title">What to Expect</h2>
+                <p class="section-label">What to Expect</p>
+                <h2 class="section-title">Your 90-Day Journey</h2>
 
-                <div class="before-after">
-                    <div class="timeline">
-                        <div class="timeline-item">
-                            <div class="timeline-dot"></div>
-                            <div class="timeline-week">Week 1-2</div>
-                            <p class="timeline-text">[COPY_HERE: What happens in first two weeks - biofilm disruption begins]</p>
-                        </div>
-                        <div class="timeline-item">
-                            <div class="timeline-dot"></div>
-                            <div class="timeline-week">Week 3-4</div>
-                            <p class="timeline-text">[COPY_HERE: Noticeable changes - odor reduction, discharge normalizing]</p>
-                        </div>
-                        <div class="timeline-item">
-                            <div class="timeline-dot"></div>
-                            <div class="timeline-week">Week 5-8</div>
-                            <p class="timeline-text">[COPY_HERE: Microbiome restoration - healthy bacteria established]</p>
-                        </div>
-                        <div class="timeline-item">
-                            <div class="timeline-dot"></div>
-                            <div class="timeline-week">Week 9-12</div>
-                            <p class="timeline-text">[COPY_HERE: Long-term balance - protection against recurrence]</p>
-                        </div>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-week">Days 1-7</div>
+                        <p class="timeline-text">Biofilm disruption begins. The enzymes start breaking down the protective shield. Some women notice early changes in odor and discharge.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-week">Weeks 2-4</div>
+                        <p class="timeline-text">Most women experience noticeable improvement. Odor reduces, discharge normalizes, and the constant worry starts to fade.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-week">Weeks 5-8</div>
+                        <p class="timeline-text">The beneficial bacteria establish themselves. Your microbiome shifts toward a healthy balance. Many women report feeling "normal" for the first time in years.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-week">Weeks 9-12</div>
+                        <p class="timeline-text">Long-term protection. The healthy bacteria now dominate, creating an environment that resists future imbalance. The cycle is broken.</p>
                     </div>
                 </div>
             </div>
 
-            <!-- Product Card -->
-            <div class="product-card">
-                <div class="product-image">
-                    <!-- Replace with actual product image -->
-                    &#127852;
-                </div>
-                <div class="product-details">
-                    <h3 class="product-name">Feminine Balance Gummies</h3>
-                    <p class="product-subtitle">30-day supply | Biofilm-disrupting formula</p>
+            <!-- Product Offer -->
+            <div class="offer-card">
+                <div class="offer-badge">Limited Time Offer — Up to 66% Off</div>
+                <div class="offer-content">
+                    <h3 class="offer-title">Choose Your Supply</h3>
+                    <p class="offer-subtitle">Select the option that works best for your journey</p>
 
-                    <ul class="product-features">
-                        <li class="product-feature">
-                            <span class="product-feature-icon">&#10003;</span>
-                            Bromelain for biofilm disruption
+                    <div class="offer-options">
+                        <div class="offer-option" data-pack="3" data-price="58.99" data-url="https://mynuora.com/products/feminine-balance-gummies-1?variant=3pack">
+                            <div class="offer-option-header">
+                                <span class="offer-option-name">3 Month Supply</span>
+                                <span class="offer-option-savings">Save 66%</span>
+                            </div>
+                            <div class="offer-option-pricing">
+                                <span class="offer-option-price">$58.99</span>
+                                <span class="offer-option-original">$173.97</span>
+                            </div>
+                            <span class="offer-option-perunit">$19.66/month</span>
+                        </div>
+
+                        <div class="offer-option best-value selected" data-pack="2" data-price="49.99" data-url="https://mynuora.com/products/feminine-balance-gummies-1?variant=2pack">
+                            <div class="offer-option-header">
+                                <span class="offer-option-name">2 Month Supply</span>
+                                <span class="offer-option-savings">Save 57%</span>
+                            </div>
+                            <div class="offer-option-pricing">
+                                <span class="offer-option-price">$49.99</span>
+                                <span class="offer-option-original">$115.98</span>
+                            </div>
+                            <span class="offer-option-perunit">$25.00/month</span>
+                        </div>
+
+                        <div class="offer-option" data-pack="1" data-price="34.99" data-url="https://mynuora.com/products/feminine-balance-gummies-1">
+                            <div class="offer-option-header">
+                                <span class="offer-option-name">1 Month Supply</span>
+                                <span class="offer-option-savings">Save 40%</span>
+                            </div>
+                            <div class="offer-option-pricing">
+                                <span class="offer-option-price">$34.99</span>
+                                <span class="offer-option-original">$57.99</span>
+                            </div>
+                            <span class="offer-option-perunit">$34.99/month</span>
+                        </div>
+                    </div>
+
+                    <ul class="offer-features">
+                        <li class="offer-feature">
+                            <span class="offer-feature-icon">&#10003;</span>
+                            Biofilm-disrupting bromelain enzymes
                         </li>
-                        <li class="product-feature">
-                            <span class="product-feature-icon">&#10003;</span>
-                            SNZ-1969 clinically-studied probiotic strain
+                        <li class="offer-feature">
+                            <span class="offer-feature-icon">&#10003;</span>
+                            Clinically-studied SNZ-1969 probiotic
                         </li>
-                        <li class="product-feature">
-                            <span class="product-feature-icon">&#10003;</span>
-                            Delicious natural pineapple flavor
+                        <li class="offer-feature">
+                            <span class="offer-feature-icon">&#10003;</span>
+                            Natural pineapple flavor — actually tastes good
                         </li>
-                        <li class="product-feature">
-                            <span class="product-feature-icon">&#10003;</span>
-                            No refrigeration required
-                        </li>
-                        <li class="product-feature">
-                            <span class="product-feature-icon">&#10003;</span>
-                            Made in USA, GMP certified
+                        <li class="offer-feature">
+                            <span class="offer-feature-icon">&#10003;</span>
+                            Free shipping on all orders
                         </li>
                     </ul>
 
-                    <div class="product-pricing">
-                        <span class="product-price">$39</span>
-                        <span class="product-price-note">One-time purchase | Free shipping</span>
-                    </div>
-
-                    <a href="https://mynuora.com/products/feminine-balance-gummies-1" class="btn btn--primary btn--large btn--full">
-                        Start My 90-Day Transformation
+                    <a href="https://mynuora.com/products/feminine-balance-gummies-1?variant=2pack" class="btn btn--primary btn--large btn--full" id="buy-btn">
+                        Get 2 Month Supply — $49.99
                     </a>
 
                     <div class="guarantee-box">
@@ -1404,39 +1704,35 @@
                             <span>&#128737;</span>
                             90-Day Money Back Guarantee
                         </h4>
-                        <p class="guarantee-text">Try Feminine Balance Gummies risk-free for 90 days. If you don't experience a noticeable improvement in your vaginal health, we'll refund every penny. No questions asked.</p>
+                        <p class="guarantee-text">Try it risk-free for 90 days. If you don't experience noticeable improvement, we'll refund every penny. No questions asked. You have nothing to lose.</p>
                     </div>
                 </div>
             </div>
 
-            <!-- Why It Works Deeper Dive -->
-            <div class="advertorial-section">
-                <p class="section-label">The Science</p>
-                <h2 class="section-title">[COPY_HERE: Why this approach is different]</h2>
-
-                <div class="section-content">
-                    <p>[COPY_HERE: Deeper explanation of biofilm - what it is, how it forms, why it's the root cause]</p>
-                    <p>[COPY_HERE: Why probiotics alone fail - they can't penetrate the biofilm shield]</p>
-                    <p>[COPY_HERE: Why antibiotics fail - they kill everything but biofilm protects bad bacteria, which come back]</p>
-                    <p>[COPY_HERE: The breakthrough - bromelain enzymes from pineapple naturally break down biofilm proteins]</p>
-                    <p>[COPY_HERE: Once biofilm is gone, SNZ-1969 can colonize and crowd out harmful bacteria permanently]</p>
+            <!-- Trust Badges -->
+            <div class="trust-badges">
+                <div class="trust-badge">
+                    <div class="trust-badge-icon">&#128274;</div>
+                    <span>256-bit SSL</span>
                 </div>
-            </div>
-
-            <!-- Second CTA -->
-            <div class="cta-section">
-                <h2 class="cta-title">Ready to Break the Cycle?</h2>
-                <p class="cta-text">Join thousands of women who have finally found lasting relief from recurring vaginal issues.</p>
-                <a href="https://mynuora.com/products/feminine-balance-gummies-1" class="btn btn--primary btn--large">
-                    Get Feminine Balance Gummies - $39
-                </a>
-                <p class="mt-md" style="font-size: 0.875rem; color: var(--color-text-muted);">90-day guarantee | Free shipping | Cancel anytime</p>
+                <div class="trust-badge">
+                    <div class="trust-badge-icon">&#127463;&#127480;</div>
+                    <span>Made in USA</span>
+                </div>
+                <div class="trust-badge">
+                    <div class="trust-badge-icon">&#128172;</div>
+                    <span>47,000+ Happy Customers</span>
+                </div>
+                <div class="trust-badge">
+                    <div class="trust-badge-icon">&#128230;</div>
+                    <span>Free Shipping</span>
+                </div>
             </div>
 
             <!-- FAQ -->
             <div class="advertorial-section">
-                <p class="section-label">Common Questions</p>
-                <h2 class="section-title">Frequently Asked Questions</h2>
+                <p class="section-label">Questions</p>
+                <h2 class="section-title">Frequently Asked</h2>
 
                 <div class="faq-item">
                     <button class="faq-question" onclick="toggleFaq(this)">
@@ -1444,27 +1740,27 @@
                         <span class="faq-icon">+</span>
                     </button>
                     <div class="faq-answer">
-                        [COPY_HERE: Answer about timeline - most notice changes in 2-4 weeks, full benefits by 90 days, why consistency matters]
+                        Most women notice initial improvements within 1-2 weeks, particularly with odor and discharge. For full benefits and long-term protection, we recommend consistent use for 90 days. This gives the beneficial bacteria time to fully establish and create lasting balance.
                     </div>
                 </div>
 
                 <div class="faq-item">
                     <button class="faq-question" onclick="toggleFaq(this)">
-                        Is this safe to take with antibiotics?
+                        Is this different from regular probiotics?
                         <span class="faq-icon">+</span>
                     </button>
                     <div class="faq-answer">
-                        [COPY_HERE: Answer about safety, consult doctor, generally safe but space from antibiotics]
+                        Yes, in two important ways. First, it includes bromelain enzymes that break down biofilm — something regular probiotics don't address. Second, it uses a spore-forming probiotic strain (SNZ-1969) that actually survives stomach acid and reaches where it's needed. Most probiotic strains die in your gut before they can help.
                     </div>
                 </div>
 
                 <div class="faq-item">
                     <button class="faq-question" onclick="toggleFaq(this)">
-                        What makes this different from other probiotics?
+                        Can I take this with antibiotics?
                         <span class="faq-icon">+</span>
                     </button>
                     <div class="faq-answer">
-                        [COPY_HERE: The biofilm-disrupting bromelain + specific SNZ-1969 strain, not just generic probiotics]
+                        Yes, but we recommend spacing them 2-3 hours apart. Taking probiotics during and after antibiotic treatment can actually help prevent the microbiome disruption that often leads to recurring infections. As always, consult with your healthcare provider about your specific situation.
                     </div>
                 </div>
 
@@ -1474,17 +1770,7 @@
                         <span class="faq-icon">+</span>
                     </button>
                     <div class="faq-answer">
-                        [COPY_HERE: Simple process - email support, no questions, full refund]
-                    </div>
-                </div>
-
-                <div class="faq-item">
-                    <button class="faq-question" onclick="toggleFaq(this)">
-                        Can I take this while pregnant or breastfeeding?
-                        <span class="faq-icon">+</span>
-                    </button>
-                    <div class="faq-answer">
-                        [COPY_HERE: Consult healthcare provider, generally considered safe but always check]
+                        Simple. If you don't experience noticeable improvement within 90 days, email us and we'll refund your full purchase. No forms, no hassle, no questions. We believe in this product, and we want you to try it with zero risk.
                     </div>
                 </div>
 
@@ -1494,124 +1780,177 @@
                         <span class="faq-icon">+</span>
                     </button>
                     <div class="faq-answer">
-                        [COPY_HERE: Natural pineapple flavor, customers love the taste, easy to remember to take]
+                        Natural pineapple — and customers genuinely love it. It's one of the most common things mentioned in reviews. It makes taking your daily supplement something you actually look forward to, which helps with consistency.
                     </div>
                 </div>
             </div>
 
             <!-- Final CTA -->
             <div class="cta-section">
-                <h2 class="cta-title">Your Journey to Balance Starts Today</h2>
-                <p class="cta-text">[COPY_HERE: Final compelling message about taking control, no more embarrassment, finally feeling confident]</p>
-                <a href="https://mynuora.com/products/feminine-balance-gummies-1" class="btn btn--primary btn--large">
-                    Start Your Transformation - $39
+                <h2 class="cta-title">Ready to Break the Cycle?</h2>
+                <p class="cta-text">Join 47,000+ women who finally found lasting relief. 90-day guarantee, free shipping, no risk.</p>
+                <a href="https://mynuora.com/products/feminine-balance-gummies-1?variant=2pack" class="btn btn--primary btn--large">
+                    Get Started — $49.99
                 </a>
-                <p class="mt-md" style="font-size: 0.875rem; color: var(--color-text-muted);">90-day money back guarantee</p>
+                <p style="font-size: 0.875rem; color: var(--color-text-muted); margin-top: var(--space-md);">2 month supply • Free shipping • 90-day guarantee</p>
             </div>
 
             <!-- Footer -->
             <footer class="footer">
                 <div class="footer-logo">nuora</div>
                 <div class="footer-links">
-                    <a href="#" class="footer-link">Privacy Policy</a>
-                    <a href="#" class="footer-link">Terms of Service</a>
-                    <a href="#" class="footer-link">Contact Us</a>
-                    <a href="#" class="footer-link">Shipping & Returns</a>
+                    <a href="https://mynuora.com/policies/privacy-policy" class="footer-link">Privacy Policy</a>
+                    <a href="https://mynuora.com/policies/terms-of-service" class="footer-link">Terms of Service</a>
+                    <a href="mailto:hello@mynuora.com" class="footer-link">Contact Us</a>
+                    <a href="https://mynuora.com/policies/shipping-policy" class="footer-link">Shipping & Returns</a>
                 </div>
                 <p class="footer-disclaimer">
-                    *These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, treat, cure, or prevent any disease. Individual results may vary. Consult your healthcare provider before starting any supplement regimen.
+                    *These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, treat, cure, or prevent any disease. Individual results may vary.
                 </p>
-                <p class="footer-disclaimer mt-md">
-                    &copy; 2024 Nuora Wellness. All rights reserved.
+                <p class="footer-disclaimer" style="margin-top: var(--space-md);">
+                    &copy; 2026 Nuora Wellness. All rights reserved.
                 </p>
             </footer>
         </div>
     </section>
 
-    <!-- Sticky CTA (appears on scroll in advertorial) -->
+    <!-- Sticky CTA -->
     <div class="sticky-cta" id="sticky-cta">
         <div class="sticky-cta-content">
-            <div>
-                <div class="sticky-cta-text">Feminine Balance Gummies</div>
-                <div class="sticky-cta-price">$39 <span style="font-size: 0.875rem; color: var(--color-text-muted);">+ free shipping</span></div>
+            <div class="sticky-cta-info">
+                <span class="sticky-cta-name">2 Month Supply</span>
+                <div class="sticky-cta-price">
+                    <span class="sticky-cta-current">$49.99</span>
+                    <span class="sticky-cta-original">$115.98</span>
+                </div>
             </div>
-            <a href="https://mynuora.com/products/feminine-balance-gummies-1" class="btn btn--primary">
-                Buy Now
+            <a href="https://mynuora.com/products/feminine-balance-gummies-1?variant=2pack" class="btn btn--primary">
+                Get Started
             </a>
         </div>
     </div>
 
     <script>
-        // Quiz questions data
+        // Quiz questions - designed to think like the customer
         const questions = [
             {
                 id: 1,
-                text: "How often do you experience vaginal odor or unusual discharge?",
+                text: "What's your primary concern right now?",
                 options: [
-                    { text: "Rarely or never", score: 20 },
-                    { text: "Once every few months", score: 15 },
-                    { text: "Monthly", score: 10 },
-                    { text: "Weekly or more often", score: 5 }
+                    { text: "Odor that won't go away", icon: "&#128683;", score: 5 },
+                    { text: "Recurring BV or yeast infections", icon: "&#128260;", score: 5 },
+                    { text: "Unusual discharge", icon: "&#128167;", score: 4 },
+                    { text: "General discomfort or irritation", icon: "&#128172;", score: 3 }
                 ]
             },
             {
                 id: 2,
-                text: "Have you experienced recurring BV, yeast infections, or UTIs in the past year?",
+                text: "How long have you been dealing with this?",
                 options: [
-                    { text: "No recurring issues", score: 20 },
-                    { text: "1-2 times", score: 15 },
-                    { text: "3-4 times", score: 8 },
-                    { text: "5 or more times", score: 3 }
+                    { text: "Just started noticing recently", icon: "&#128197;", score: 2 },
+                    { text: "A few months", icon: "&#128198;", score: 3 },
+                    { text: "6 months to a year", icon: "&#128467;", score: 4 },
+                    { text: "Over a year — I've lost count", icon: "&#8734;", score: 5 }
                 ]
             },
             {
                 id: 3,
-                text: "How would you describe your vaginal pH balance?",
+                text: "What have you already tried?",
                 options: [
-                    { text: "I've tested it and it's normal", score: 20 },
-                    { text: "I'm not sure / haven't tested", score: 12 },
-                    { text: "I've been told it's off-balance", score: 8 },
-                    { text: "I frequently have pH-related issues", score: 4 }
+                    { text: "Antibiotics from my doctor", icon: "&#128138;", score: 4 },
+                    { text: "Probiotics or supplements", icon: "&#128218;", score: 3 },
+                    { text: "OTC treatments (Monistat, boric acid, etc.)", icon: "&#128722;", score: 3 },
+                    { text: "Multiple things — nothing works long-term", icon: "&#128557;", score: 5 }
                 ]
             },
             {
                 id: 4,
-                text: "How many rounds of antibiotics have you taken in the past 2 years?",
+                text: "Did those treatments provide lasting relief?",
                 options: [
-                    { text: "None", score: 15 },
-                    { text: "1-2 rounds", score: 12 },
-                    { text: "3-5 rounds", score: 7 },
-                    { text: "More than 5 rounds", score: 3 }
+                    { text: "Yes, but symptoms came back", icon: "&#128260;", score: 5 },
+                    { text: "Temporary relief, then nothing", icon: "&#128532;", score: 4 },
+                    { text: "Not really — barely noticed a difference", icon: "&#128528;", score: 4 },
+                    { text: "Haven't tried much yet", icon: "&#128566;", score: 2 }
                 ]
             },
             {
                 id: 5,
-                text: "Do you currently take a probiotic for vaginal health?",
+                text: "How is this affecting your daily life?",
                 options: [
-                    { text: "Yes, consistently", score: 10 },
-                    { text: "Sometimes / inconsistently", score: 8 },
-                    { text: "I used to but stopped", score: 6 },
-                    { text: "No, never have", score: 5 }
+                    { text: "I'm constantly worried about it", icon: "&#128552;", score: 5 },
+                    { text: "It's affecting my confidence", icon: "&#128543;", score: 4 },
+                    { text: "I avoid certain situations because of it", icon: "&#128694;", score: 5 },
+                    { text: "It's annoying but manageable", icon: "&#128530;", score: 2 }
                 ]
             },
             {
                 id: 6,
-                text: "How does your vaginal health affect your confidence or intimacy?",
+                text: "Has this affected intimacy with your partner?",
                 options: [
-                    { text: "It doesn't affect me", score: 10 },
-                    { text: "Occasionally causes mild concern", score: 8 },
-                    { text: "Often affects my confidence", score: 5 },
-                    { text: "Significantly impacts my life", score: 2 }
+                    { text: "Yes — I avoid it or feel self-conscious", icon: "&#128148;", score: 5 },
+                    { text: "Sometimes I worry about it", icon: "&#128533;", score: 4 },
+                    { text: "My partner has noticed something", icon: "&#128556;", score: 5 },
+                    { text: "Not really an issue for me", icon: "&#128077;", score: 1 }
                 ]
             },
             {
                 id: 7,
-                text: "What best describes your current approach to vaginal health?",
+                text: "How would you describe your experience with doctors about this?",
                 options: [
-                    { text: "Proactive - I maintain a healthy routine", score: 10 },
-                    { text: "Reactive - I address issues when they arise", score: 7 },
-                    { text: "Frustrated - Nothing seems to work long-term", score: 4 },
-                    { text: "Lost - I don't know what to do anymore", score: 2 }
+                    { text: "They keep prescribing the same thing", icon: "&#128137;", score: 4 },
+                    { text: "They say it's 'normal' but I know it's not", icon: "&#129324;", score: 5 },
+                    { text: "I haven't felt comfortable bringing it up", icon: "&#128566;", score: 3 },
+                    { text: "I haven't seen a doctor about it", icon: "&#128100;", score: 2 }
+                ]
+            },
+            {
+                id: 8,
+                text: "Have you taken antibiotics in the past 2 years?",
+                options: [
+                    { text: "Multiple rounds — lost count", icon: "&#128138;", score: 5 },
+                    { text: "A few times", icon: "&#128137;", score: 3 },
+                    { text: "Once or twice", icon: "&#9989;", score: 2 },
+                    { text: "No", icon: "&#10060;", score: 1 }
+                ]
+            },
+            {
+                id: 9,
+                text: "Do you experience digestive issues alongside vaginal symptoms?",
+                options: [
+                    { text: "Yes, frequently", icon: "&#128531;", score: 4 },
+                    { text: "Sometimes", icon: "&#129300;", score: 3 },
+                    { text: "Rarely", icon: "&#128528;", score: 2 },
+                    { text: "No connection that I've noticed", icon: "&#128077;", score: 1 }
+                ]
+            },
+            {
+                id: 10,
+                text: "What matters most to you in a solution?",
+                options: [
+                    { text: "Something that actually works long-term", icon: "&#127942;", score: 3 },
+                    { text: "Understanding WHY I have this problem", icon: "&#128161;", score: 3 },
+                    { text: "Something natural, not more antibiotics", icon: "&#127807;", score: 3 },
+                    { text: "Getting my confidence back", icon: "&#128170;", score: 3 }
+                ]
+            },
+            {
+                id: 11,
+                text: "If there was a solution that addressed the root cause, would you commit to trying it for 90 days?",
+                options: [
+                    { text: "Absolutely — I'm ready", icon: "&#128293;", score: 4 },
+                    { text: "Yes, if it makes sense", icon: "&#128077;", score: 3 },
+                    { text: "Maybe — I'd need to know more", icon: "&#129300;", score: 2 },
+                    { text: "I'm skeptical at this point", icon: "&#128528;", score: 1 }
+                ]
+            },
+            {
+                id: 12,
+                text: "One last thing: how did you hear about us?",
+                options: [
+                    { text: "Social media (Instagram, TikTok, Facebook)", icon: "&#128241;", score: 0 },
+                    { text: "A friend recommended you", icon: "&#128101;", score: 0 },
+                    { text: "Searching online for solutions", icon: "&#128269;", score: 0 },
+                    { text: "An ad", icon: "&#128226;", score: 0 }
                 ]
             }
         ];
@@ -1620,12 +1959,13 @@
         let currentQuestion = 0;
         let answers = [];
         let totalScore = 0;
+        let selectedOffer = { pack: 2, price: 49.99, url: 'https://mynuora.com/products/feminine-balance-gummies-1?variant=2pack' };
 
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('total-questions').textContent = questions.length;
             renderQuestion();
             setupEmailForm();
+            setupOfferSelection();
             setupStickyScroll();
         });
 
@@ -1635,22 +1975,31 @@
             const card = document.getElementById('question-card');
 
             card.innerHTML = `
-                <p class="question-number">Question ${question.id}</p>
+                <p class="question-label">Question ${question.id} of ${questions.length}</p>
                 <h2 class="question-text">${question.text}</h2>
                 <div class="options">
                     ${question.options.map((opt, idx) => `
                         <button class="option" onclick="selectOption(${idx}, ${opt.score})">
-                            <span class="option-indicator"></span>
+                            <span class="option-icon">${opt.icon}</span>
                             <span class="option-text">${opt.text}</span>
+                            <span class="option-check"></span>
                         </button>
                     `).join('')}
                 </div>
             `;
 
-            // Update progress
-            document.getElementById('current-question').textContent = currentQuestion + 1;
+            // Update header
+            document.getElementById('progress-info').textContent = `${currentQuestion + 1} of ${questions.length}`;
             const progress = ((currentQuestion) / questions.length) * 100;
             document.getElementById('progress-fill').style.width = progress + '%';
+
+            // Show/hide back button
+            const backBtn = document.getElementById('back-btn');
+            if (currentQuestion > 0) {
+                backBtn.classList.add('visible');
+            } else {
+                backBtn.classList.remove('visible');
+            }
         }
 
         // Handle option selection
@@ -1666,74 +2015,92 @@
                 score: score
             };
 
-            // Auto-advance after brief delay
+            // Auto-advance
             setTimeout(() => {
                 if (currentQuestion < questions.length - 1) {
                     currentQuestion++;
                     renderQuestion();
                 } else {
-                    // Quiz complete
                     calculateResults();
                 }
-            }, 400);
+            }, 350);
         }
 
-        // Calculate and show results
+        // Go back
+        function goBack() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                renderQuestion();
+            }
+        }
+
+        // Calculate results
         function calculateResults() {
-            // Show loading
             showSection('loading-section');
 
-            // Animate loading steps
-            const steps = ['step-1', 'step-2', 'step-3'];
-            let currentStep = 0;
+            // Animate loading
+            let percent = 0;
+            const percentEl = document.getElementById('loading-percent');
+            const steps = ['load-step-1', 'load-step-2', 'load-step-3'];
 
-            const stepInterval = setInterval(() => {
-                if (currentStep > 0) {
-                    document.getElementById(steps[currentStep - 1]).classList.remove('active');
-                    document.getElementById(steps[currentStep - 1]).classList.add('complete');
-                }
+            // Show steps one by one
+            steps.forEach((stepId, index) => {
+                setTimeout(() => {
+                    document.getElementById(stepId).classList.add('visible');
+                    document.getElementById(stepId).classList.add('active');
 
-                if (currentStep < steps.length) {
-                    document.getElementById(steps[currentStep]).classList.add('active');
-                    currentStep++;
-                } else {
-                    clearInterval(stepInterval);
+                    if (index > 0) {
+                        document.getElementById(steps[index - 1]).classList.remove('active');
+                        document.getElementById(steps[index - 1]).classList.add('complete');
+                    }
+                }, index * 1200);
+            });
 
-                    // Calculate total score
+            // Animate percentage
+            const percentInterval = setInterval(() => {
+                percent += 2;
+                percentEl.textContent = percent + '%';
+
+                if (percent >= 100) {
+                    clearInterval(percentInterval);
+
+                    // Complete last step
+                    document.getElementById(steps[2]).classList.remove('active');
+                    document.getElementById(steps[2]).classList.add('complete');
+
+                    // Calculate score
                     totalScore = answers.reduce((sum, a) => sum + a.score, 0);
-
-                    // Max possible score
                     const maxScore = questions.reduce((sum, q) => sum + Math.max(...q.options.map(o => o.score)), 0);
 
-                    // Normalize to 100
-                    const normalizedScore = Math.round((totalScore / maxScore) * 100);
+                    // Invert score so lower is "needs more help" (makes more sense for this context)
+                    // Higher raw score = more issues = lower health score
+                    const healthScore = Math.round(100 - ((totalScore / maxScore) * 70)); // 30-100 range
 
-                    // Show results after short delay
                     setTimeout(() => {
-                        displayResults(normalizedScore);
-                    }, 500);
+                        displayResults(healthScore);
+                    }, 600);
                 }
-            }, 1000);
+            }, 70);
         }
 
         // Display results
         function displayResults(score) {
             showSection('results-section');
 
-            // Determine score category
-            let scoreClass, scoreLabel, message;
-            if (score <= 35) {
+            // Determine category
+            let scoreClass, status, message;
+            if (score <= 40) {
                 scoreClass = 'score-low';
-                scoreLabel = 'Needs Attention';
-                message = 'Your responses indicate significant microbiome imbalance. The good news? This is exactly where targeted support can make the biggest difference.';
-            } else if (score <= 65) {
+                status = 'Significant Imbalance Detected';
+                message = 'Your responses indicate your microbiome needs attention. The symptoms you\'re experiencing are consistent with biofilm-related imbalance. The good news? This is exactly where targeted support makes the biggest difference.';
+            } else if (score <= 60) {
                 scoreClass = 'score-medium';
-                scoreLabel = 'Room for Improvement';
-                message = 'Your microbiome shows signs of imbalance that could benefit from targeted support. Many women in your situation find relief with the right approach.';
+                status = 'Moderate Imbalance Detected';
+                message = 'Your microbiome shows signs of imbalance that could benefit from targeted support. Many women with similar patterns find lasting relief by addressing the root cause.';
             } else {
                 scoreClass = 'score-high';
-                scoreLabel = 'Good Foundation';
-                message = 'Your microbiome appears relatively healthy, but there\'s always room for optimization. Proactive support can help maintain this balance long-term.';
+                status = 'Mild Imbalance';
+                message = 'Your microbiome appears relatively healthy with some areas for improvement. Proactive support can help maintain balance and prevent future issues.';
             }
 
             // Update score display
@@ -1741,52 +2108,74 @@
             scoreNumber.textContent = score;
             scoreNumber.className = 'score-number ' + scoreClass;
 
-            const scoreBar = document.getElementById('score-bar-fill');
-            scoreBar.className = 'score-bar-fill ' + scoreClass;
+            // Animate score circle
+            const scoreCircle = document.getElementById('score-circle');
+            scoreCircle.className = 'score-circle-progress ' + scoreClass;
+            const circumference = 339.292;
+            const offset = circumference - (score / 100) * circumference;
             setTimeout(() => {
-                scoreBar.style.width = score + '%';
+                scoreCircle.style.strokeDashoffset = offset;
             }, 100);
 
-            document.getElementById('score-label').textContent = scoreLabel;
-            document.getElementById('results-message').textContent = message;
+            document.getElementById('score-status').textContent = status;
+            document.getElementById('score-message').textContent = message;
 
-            // Populate answer summary
+            // Populate answer summary (show key answers, not all)
+            const keyQuestions = [0, 1, 2, 4, 5]; // Primary concern, duration, tried, daily life, intimacy
             const summaryContainer = document.getElementById('answer-summary');
-            summaryContainer.innerHTML = answers.map(a => `
-                <div class="summary-item">
-                    <p class="summary-question">${a.question}</p>
-                    <p class="summary-answer">${a.answer}</p>
-                </div>
-            `).join('');
+            summaryContainer.innerHTML = keyQuestions.map(idx => {
+                if (answers[idx]) {
+                    return `
+                        <div class="summary-item">
+                            <p class="summary-question">${answers[idx].question}</p>
+                            <p class="summary-answer">${answers[idx].answer}</p>
+                        </div>
+                    `;
+                }
+                return '';
+            }).join('');
         }
 
         // Section navigation
         function showSection(sectionId) {
             document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
             document.getElementById(sectionId).classList.add('active');
-
-            // Scroll to top
             window.scrollTo({ top: 0, behavior: 'smooth' });
-
-            // Show sticky CTA on advertorial
-            if (sectionId === 'advertorial-section') {
-                setupStickyScroll();
-            }
         }
 
-        // Email form handling
+        // Email form
         function setupEmailForm() {
             document.getElementById('email-form').addEventListener('submit', function(e) {
                 e.preventDefault();
-
                 const firstName = document.getElementById('first-name').value;
                 const email = document.getElementById('email').value;
 
-                // Here you would send to your email service (Klaviyo)
+                // Would send to Klaviyo here
                 console.log('Email captured:', { firstName, email, score: totalScore, answers });
 
-                // For now, just proceed to advertorial
                 showSection('advertorial-section');
+            });
+        }
+
+        // Offer selection
+        function setupOfferSelection() {
+            document.querySelectorAll('.offer-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    document.querySelectorAll('.offer-option').forEach(o => o.classList.remove('selected'));
+                    this.classList.add('selected');
+
+                    selectedOffer = {
+                        pack: parseInt(this.dataset.pack),
+                        price: parseFloat(this.dataset.price),
+                        url: this.dataset.url
+                    };
+
+                    // Update buy button
+                    const btn = document.getElementById('buy-btn');
+                    const packNames = { 1: '1 Month Supply', 2: '2 Month Supply', 3: '3 Month Supply' };
+                    btn.textContent = `Get ${packNames[selectedOffer.pack]} — $${selectedOffer.price}`;
+                    btn.href = selectedOffer.url;
+                });
             });
         }
 
@@ -1796,15 +2185,14 @@
             item.classList.toggle('open');
         }
 
-        // Sticky CTA on scroll
+        // Sticky CTA
         function setupStickyScroll() {
             const stickyCta = document.getElementById('sticky-cta');
-            const advertorial = document.getElementById('advertorial-section');
 
             window.addEventListener('scroll', function() {
+                const advertorial = document.getElementById('advertorial-section');
                 if (advertorial.classList.contains('active')) {
-                    const scrollPosition = window.scrollY;
-                    if (scrollPosition > 800) {
+                    if (window.scrollY > 1000) {
                         stickyCta.classList.add('visible');
                     } else {
                         stickyCta.classList.remove('visible');
