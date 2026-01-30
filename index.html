@@ -236,6 +236,15 @@
         .stat-number { font-family: var(--font-serif); font-size: 2rem; color: var(--color-primary); margin-bottom: var(--space-xs); }
         .stat-label { font-size: 0.75rem; color: var(--color-text-muted); line-height: 1.4; }
 
+        /* Treatment cards - Why nothing worked */
+        .treatment-cards { display: flex; flex-direction: column; gap: var(--space-lg); margin-top: var(--space-xl); }
+        .treatment-card { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: var(--space-xl); position: relative; overflow: hidden; }
+        .treatment-card::before { content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: var(--color-error); }
+        .treatment-card-icon { font-size: 2rem; margin-bottom: var(--space-md); }
+        .treatment-card-title { font-family: var(--font-serif); font-size: 1.25rem; margin-bottom: var(--space-sm); color: var(--color-text); }
+        .treatment-card-text { font-style: italic; color: var(--color-text-muted); font-size: 0.9375rem; margin-bottom: var(--space-md); padding-left: var(--space-md); border-left: 2px solid var(--color-border); }
+        .treatment-card-reason { color: var(--color-text-secondary); font-size: 0.9375rem; line-height: 1.6; }
+
         /* Testimonials */
         .testimonial { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: var(--space-xl); margin-bottom: var(--space-lg); }
         .testimonial-stars { color: #F59E0B; font-size: 1rem; margin-bottom: var(--space-md); letter-spacing: 2px; }
@@ -398,18 +407,6 @@
     <section id="advertorial-section" class="section">
         <div class="container container--wide advertorial">
 
-            <!-- Authority Badges -->
-            <div class="authority-badges">
-                <span class="authority-badge">Bestseller</span>
-                <span class="authority-badge">Try for 90 days</span>
-                <span class="authority-badge">47K+ sold last month</span>
-            </div>
-
-            <!-- Hero Image -->
-            <div class="hero-image" style="width: 100%; height: 300px; background: linear-gradient(135deg, #E8F0EC 0%, #d4e8dc 100%); border-radius: var(--radius-lg); margin-bottom: var(--space-xl); display: flex; align-items: center; justify-content: center; overflow: hidden;">
-                <img src="assets/hero-woman.jpg" alt="Woman feeling confident" style="width: 100%; height: 100%; object-fit: cover; object-position: center top;" onerror="this.style.display='none'; this.parentElement.innerHTML='<span style=font-size:4rem>🌸</span>';">
-            </div>
-
             <!-- Hero -->
             <div class="advertorial-hero">
                 <p class="advertorial-eyebrow">Finally Explained</p>
@@ -441,34 +438,52 @@
                         <p>Think of biofilm like a dome over a city. Antibiotics, probiotics, and your immune system can attack the dome all day long... but the bacteria inside stay completely safe.</p>
                     </div>
 
-                    <p>This is why <strong>58% of women who treat BV experience recurrence within 12 months.</strong></p>
+                    <p>This is why <strong>86% of women won't get rid of recurring BV</strong> — unless they address what's actually causing it.</p>
                     <p>The antibiotics kill the bacteria they can reach. But the ones hiding inside the biofilm? They survive. And the moment conditions change (your period, stress, intimacy), they repopulate.</p>
                 </div>
 
                 <div class="stat-grid">
                     <div class="stat-card">
-                        <div class="stat-number">58%</div>
-                        <div class="stat-label">of women experience BV recurrence within 12 months</div>
+                        <div class="stat-number">86%</div>
+                        <div class="stat-label">of women with recurring BV haven't addressed the root cause</div>
                     </div>
                     <div class="stat-card">
                         <div class="stat-number">1000x</div>
-                        <div class="stat-label">more resistant bacteria inside biofilm vs exposed</div>
+                        <div class="stat-label">more resistant — bacteria inside biofilm vs exposed</div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-number">86.6%</div>
-                        <div class="stat-label">improvement rate with biofilm-targeting approach</div>
+                        <div class="stat-number">87%</div>
+                        <div class="stat-label">improvement when biofilm is targeted directly</div>
                     </div>
                 </div>
             </div>
 
-            <!-- Why Others Fail -->
+            <!-- Why Others Fail - Beautiful Cards -->
             <div class="advertorial-section">
                 <p class="section-label">The Logical Cage</p>
                 <h2 class="section-title">Why Nothing You've Tried Has Worked Long-Term</h2>
-                <div class="section-content">
-                    <p><strong>Antibiotics:</strong> Kill exposed bacteria but can't penetrate biofilm. Plus they wipe out good bacteria too, making future infections MORE likely.</p>
-                    <p><strong>Regular probiotics:</strong> Most strains don't survive stomach acid. Even if they do, they can't colonize when biofilm is blocking the way. It's like trying to plant a garden on concrete.</p>
-                    <p><strong>Boric acid & washes:</strong> Only work on the surface. They might provide temporary relief, but don't address the protected bacteria deep in the biofilm.</p>
+
+                <div class="treatment-cards">
+                    <div class="treatment-card">
+                        <div class="treatment-card-icon">💊</div>
+                        <h4 class="treatment-card-title">Antibiotics</h4>
+                        <p class="treatment-card-text">"My doctor kept prescribing the same thing over and over..."</p>
+                        <p class="treatment-card-reason">Kills exposed bacteria but can't penetrate biofilm. Plus they wipe out good bacteria too — making future infections MORE likely.</p>
+                    </div>
+
+                    <div class="treatment-card">
+                        <div class="treatment-card-icon">🧬</div>
+                        <h4 class="treatment-card-title">Regular Probiotics</h4>
+                        <p class="treatment-card-text">"I've tried every probiotic on Amazon..."</p>
+                        <p class="treatment-card-reason">Most strains don't survive stomach acid. Even if they do, they can't colonize when biofilm is blocking the way. Like planting a garden on concrete.</p>
+                    </div>
+
+                    <div class="treatment-card">
+                        <div class="treatment-card-icon">🧴</div>
+                        <h4 class="treatment-card-title">Boric Acid & Washes</h4>
+                        <p class="treatment-card-text">"Temporary relief, then right back to square one..."</p>
+                        <p class="treatment-card-reason">Only work on the surface. They might provide temporary relief, but don't address the protected bacteria deep in the biofilm.</p>
+                    </div>
                 </div>
             </div>
 
@@ -516,7 +531,7 @@
                     <div class="testimonial-stars">★★★★★</div>
                     <p class="testimonial-text">"I've dealt with recurring BV for way too long. I've tried every product on the market — pills, gels, wipes, you name it — and everything felt like a temporary band-aid. Within three weeks of taking these, my symptoms were gone. It's been 4 months and nothing has come back. I actually cried."</p>
                     <div class="testimonial-author">
-                        <div class="testimonial-avatar">LN</div>
+                        <div class="testimonial-avatar" style="overflow: hidden;"><img src="assets/avatar-lillian.jpg" alt="Lillian" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.parentElement.innerHTML='LN';"></div>
                         <div>
                             <div class="testimonial-name">Lillian N.</div>
                             <div class="testimonial-detail">Verified Buyer</div>
@@ -529,7 +544,7 @@
                     <div class="testimonial-stars">★★★★★</div>
                     <p class="testimonial-text">"Intimacy made me cringe bc what if they smelled what I smelled? Even after showering, I felt like I smelled bad. Not even a week into taking them I started smelling so fresh and clean. My husband even said I taste good now."</p>
                     <div class="testimonial-author">
-                        <div class="testimonial-avatar">JW</div>
+                        <div class="testimonial-avatar" style="overflow: hidden;"><img src="assets/avatar-jalissa.jpg" alt="Jalissa" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.parentElement.innerHTML='JW';"></div>
                         <div>
                             <div class="testimonial-name">Jalissa W.</div>
                             <div class="testimonial-detail">Verified Buyer</div>
@@ -542,7 +557,7 @@
                     <div class="testimonial-stars">★★★★★</div>
                     <p class="testimonial-text">"My doctor kept prescribing antibiotics and it wasn't going away. Tried these thinking yeah right, but what do I have to lose. By day 7 I noticed a difference. Now at week 6 I feel like a different person."</p>
                     <div class="testimonial-author">
-                        <div class="testimonial-avatar">NC</div>
+                        <div class="testimonial-avatar" style="overflow: hidden;"><img src="assets/avatar-nicole.jpg" alt="Nicole" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.parentElement.innerHTML='NC';"></div>
                         <div>
                             <div class="testimonial-name">Nicole C.</div>
                             <div class="testimonial-detail">Verified Buyer</div>
