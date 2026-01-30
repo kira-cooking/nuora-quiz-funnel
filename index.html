@@ -4,6 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vaginal Health Assessment | Nuora</title>
+
+    <!-- Meta Pixel Code - Replace YOUR_PIXEL_ID with actual pixel ID -->
+    <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    // fbq('init', 'YOUR_PIXEL_ID'); // Uncomment and add your Pixel ID
+    // fbq('track', 'PageView');
+    </script>
+
+    <!-- Klaviyo Script - Replace YOUR_PUBLIC_KEY with actual key -->
+    <script async src="https://static.klaviyo.com/onsite/js/klaviyo.js?company_id=YOUR_PUBLIC_KEY"></script>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Serif+Display&display=swap" rel="stylesheet">
@@ -387,21 +405,27 @@
                 <span class="authority-badge">47K+ sold last month</span>
             </div>
 
+            <!-- Hero Image -->
+            <div class="hero-image" style="width: 100%; height: 300px; background: linear-gradient(135deg, #E8F0EC 0%, #d4e8dc 100%); border-radius: var(--radius-lg); margin-bottom: var(--space-xl); display: flex; align-items: center; justify-content: center; overflow: hidden;">
+                <img src="assets/hero-woman.jpg" alt="Woman feeling confident" style="width: 100%; height: 100%; object-fit: cover; object-position: center top;" onerror="this.style.display='none'; this.parentElement.innerHTML='<span style=font-size:4rem>🌸</span>';">
+            </div>
+
             <!-- Hero -->
             <div class="advertorial-hero">
                 <p class="advertorial-eyebrow">Finally Explained</p>
-                <h1 class="advertorial-headline">Why Your BV, Yeast, and Odor Keep Coming Back — Even After Treatment</h1>
-                <p class="advertorial-subhead">And the hidden mechanism that 58% of women don't know about (that's keeping them stuck in the cycle)</p>
+                <h1 class="advertorial-headline">"I'd Given Up on Ever Feeling Normal Down There"</h1>
+                <p class="advertorial-subhead">Whether it's odor, recurring infections, or dryness — there's a reason nothing has worked. And it's not your fault.</p>
             </div>
 
             <!-- Opening -->
             <div class="advertorial-section">
                 <p class="section-label">The Truth</p>
-                <h2 class="section-title">It's Not Your Fault. The Treatment Was Incomplete.</h2>
+                <h2 class="section-title">It's Not Your Fault. The Antibiotics Only Kill What's on the Surface.</h2>
                 <div class="section-content">
-                    <p>If you've tried antibiotics, probiotics, boric acid, special washes — and symptoms keep coming back — <strong>it's not because your body is broken.</strong></p>
-                    <p>It's because every treatment you've tried was designed to fight the wrong battle.</p>
-                    <p>Here's what your doctor probably didn't tell you...</p>
+                    <p>Boric acid. Probiotics. Monistat. Apple cider vinegar. That expensive pH-balanced wash.</p>
+                    <p><strong>You've tried it all.</strong> Maybe it worked for a week. Maybe two. Then... right back where you started.</p>
+                    <p>It's not because your body is broken. It's not because you're doing something wrong.</p>
+                    <p>It's because every treatment you've tried attacks the <em>symptoms</em> — while the actual source stays hidden.</p>
                 </div>
             </div>
 
@@ -466,11 +490,13 @@
                 <h2 class="section-title">What Researchers Are Saying</h2>
 
                 <div class="doctor-card">
-                    <div class="doctor-image">👩‍⚕️</div>
+                    <div class="doctor-image">
+                        <img src="assets/doctor-sarah.jpg" alt="Dr. Sarah Chen" onerror="this.style.display='none'; this.parentElement.innerHTML='👩‍⚕️';">
+                    </div>
                     <div class="doctor-info">
                         <h4 class="doctor-name">Dr. Sarah Chen, PhD</h4>
-                        <p class="doctor-credentials">Microbiome Researcher, Stanford University</p>
-                        <p class="doctor-quote">"The biofilm paradigm has completely changed how we understand recurrent vaginal infections. Treatments that don't address biofilm are essentially putting a band-aid on a systemic problem."</p>
+                        <p class="doctor-credentials">Microbiome Researcher • 15+ Years in Women's Health</p>
+                        <p class="doctor-quote">"Most women don't realize that recurring infections and vaginal discomfort share the same root cause — biofilm. Until you address the biofilm, you're treating symptoms, not the source."</p>
                     </div>
                 </div>
 
@@ -677,8 +703,8 @@
                 options: [
                     { text: "Odor that won't go away", icon: "🚫", score: 5 },
                     { text: "Recurring BV or yeast infections", icon: "🔄", score: 5 },
-                    { text: "Unusual discharge", icon: "💧", score: 4 },
-                    { text: "General discomfort or irritation", icon: "💬", score: 3 }
+                    { text: "Dryness or discomfort during intimacy", icon: "💧", score: 5 },
+                    { text: "General irritation or imbalance", icon: "💬", score: 4 }
                 ]
             },
             {
@@ -787,10 +813,58 @@
         let totalScore = 0;
         let multiSelectAnswers = [];
 
+        // Preserve tracking params from ad clicks
+        const savedTrackingParams = (function() {
+            const params = new URLSearchParams(window.location.search);
+            const tracking = {};
+            ['fbclid', 'gclid', 'ttclid', 'utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'].forEach(p => {
+                if (params.has(p)) tracking[p] = params.get(p);
+            });
+            sessionStorage.setItem('quiz_tracking', JSON.stringify(tracking));
+            return tracking;
+        })();
+
+        // Build tracked Shopify URL with UTMs
+        function buildTrackedURL(productPath) {
+            const saved = JSON.parse(sessionStorage.getItem('quiz_tracking') || '{}');
+            const params = new URLSearchParams({
+                utm_source: 'quiz',
+                utm_medium: 'funnel',
+                utm_campaign: 'vaginal_health_quiz',
+                utm_content: answers[0]?.answer?.toLowerCase().replace(/[^a-z]/g, '_') || 'unknown',
+            });
+            if (saved.fbclid) params.append('fbclid', saved.fbclid);
+            return `https://mynuora.com${productPath}?${params.toString()}`;
+        }
+
+        // Track events to Meta Pixel and Klaviyo
+        function trackEvent(eventName, data) {
+            console.log('Track:', eventName, data);
+
+            // Meta Pixel
+            if (window.fbq) {
+                if (eventName === 'QuizStart') fbq('trackCustom', 'QuizStart', data);
+                if (eventName === 'QuizProgress') fbq('trackCustom', 'QuizProgress', data);
+                if (eventName === 'QuizComplete') {
+                    fbq('trackCustom', 'QuizComplete', data);
+                    fbq('track', 'Lead', { content_name: 'Quiz Completion', value: 49.99, currency: 'USD' });
+                }
+                if (eventName === 'ViewResults') fbq('track', 'ViewContent', { content_name: 'Quiz Results' });
+                if (eventName === 'InitiateCheckout') fbq('track', 'InitiateCheckout', data);
+            }
+
+            // Klaviyo
+            if (window._learnq) {
+                window._learnq.push(['track', eventName, data]);
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
             renderQuestion();
             setupEmailForm();
             setupStickyScroll();
+            updateCheckoutLinks();
+            trackEvent('QuizStart', { quiz_name: 'vaginal_health' });
         });
 
         function renderQuestion() {
@@ -846,6 +920,13 @@
                     answer: questions[currentQuestion].options[optionIndex].text,
                     score: score
                 };
+
+                // Track question progress
+                trackEvent('QuizProgress', {
+                    question_number: currentQuestion + 1,
+                    question: questions[currentQuestion].text,
+                    answer: questions[currentQuestion].options[optionIndex].text
+                });
 
                 setTimeout(() => {
                     if (currentQuestion < questions.length - 1) {
@@ -957,6 +1038,15 @@
                 }
                 return '';
             }).join('');
+
+            // Track quiz completion
+            trackEvent('QuizComplete', {
+                score: score,
+                status: status,
+                primary_concern: answers[0]?.answer || '',
+                duration: answers[1]?.answer || ''
+            });
+            trackEvent('ViewResults', { score: score });
         }
 
         function showSection(sectionId) {
@@ -971,7 +1061,35 @@
                 const firstName = document.getElementById('first-name').value;
                 const email = document.getElementById('email').value;
                 console.log('Email captured:', { firstName, email, score: totalScore, answers });
+
+                // Send to Klaviyo
+                if (window._learnq) {
+                    window._learnq.push(['identify', {
+                        '$email': email,
+                        '$first_name': firstName,
+                        'Quiz Score': totalScore,
+                        'Primary Concern': answers[0]?.answer || '',
+                        'Quiz Completed': new Date().toISOString()
+                    }]);
+                }
+
+                trackEvent('EmailCaptured', { email: email, score: totalScore });
                 showSection('advertorial-section');
+            });
+        }
+
+        function updateCheckoutLinks() {
+            // Update all checkout links with UTM parameters
+            const checkoutURL = buildTrackedURL('/products/feminine-balance-gummies-1');
+            document.querySelectorAll('a[href*="mynuora.com/products"]').forEach(link => {
+                link.href = checkoutURL;
+                link.addEventListener('click', function() {
+                    trackEvent('InitiateCheckout', {
+                        content_name: '2-Pack Feminine Balance',
+                        value: 49.99,
+                        currency: 'USD'
+                    });
+                });
             });
         }
 
